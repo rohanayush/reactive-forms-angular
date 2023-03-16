@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="garden">
+    <!-- Contains all forms -->
+    <div class="stretch1">
+      <form
+        *ngIf="hobbiesForm"
+        [formGroup]="hobbiesForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <div class="flex">
+          <label for="name">Name </label>
+          <input type="text" id="name" name="name" formControlName="name" />
+        </div>
+
+        <div class="flex">
+          <div>Add Hobbies:</div>
+          <div>
+            <button
+              type="button"
+              style="background: green"
+              (click)="addhobbies()"
+            >
+              +
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div formArrayName="hobbies">
+            <div
+              *ngFor="let hobby of hobbies.controls; let i = index"
+              style="margin-top: 1rem"
+            >
+              <div class="hobbies" [formGroupName]="i">
+                {{ i + 1 }}
+                Hobby :
+                <input type="text" formControlName="hobby" />
+                Rating:
+                <input type="number" formControlName="rating" />
+                <div class="flex">
+                  <button
+                    type="button"
+                    style="background: green"
+                    (click)="addhobbies()"
+                  >
+                    +
+                  </button>
+                  <button (click)="removeHobby(i)" style="background: red">
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          <button type="submit" [disabled]="hobbiesForm.valid">Submit</button>
+        </p>
+      </form>
+    </div>
+
+    <!-- Containes all output -->
+    <div class="stretch2">
+      <div *ngIf="hobbiesForm?.value.name.length > 1" class="flex">
+        <h1>{{ this.hobbiesForm?.value["name"] }} Likes:</h1>
+      </div>
+      <div class="flex" *ngFor="let hobby of hobbyList">
+        <ng-container *ngIf="hobby.rating > 0 && hobby.hobby.length > 0">
+          <div
+            class="flex"
+            style="
+              box-shadow: 2px 2px 2px 2px purple;
+              width: 90%;
+              border-radius: 12px;
+              padding: 5px;
+            "
+          >
+            {{ hobby.hobby }}<button>{{ hobby.rating }}</button>
+          </div></ng-container
+        >
+      </div>
+    </div>
+  </div>
+</div>
